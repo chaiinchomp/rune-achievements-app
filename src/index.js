@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import './common/index.css';
+import './index.css';
 import App from './App';
-import Achievements from './achievements/Achievements';
-import About from './about/About';
+import Achievements from './pages/Achievements';
+import About from './pages/About';
 
 ReactDOM.render(
   <div>

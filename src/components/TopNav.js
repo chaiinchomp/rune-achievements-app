@@ -2,8 +2,8 @@ import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Route, Switch } from 'react-router-dom';
-import Achievements from '../achievements/Achievements';
-import About from '../about/About';
+import Achievements from '../pages/Achievements';
+import About from '../pages/About';
 
 export default function() {
     return (
