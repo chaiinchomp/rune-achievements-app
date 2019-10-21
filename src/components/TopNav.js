@@ -9,19 +9,19 @@ export default function() {
     return (
         <div>
             <div>
-            <Navbar bg="dark" variant="dark">
-                <Navbar.Brand href="/">RuneAchievements</Navbar.Brand>
-                <Nav>
-                    <Link to="/achievements" className="nav-link">Achievements</Link>
-                    <Link to="/about" className="nav-link">About</Link>
-                </Nav>
-            </Navbar>
-        </div>
-        <div>
-            <Switch>
-                <Route path="/achievements" component={Achievements} />
-                <Route path="/about" component={About} />
-            </Switch>
+                <Navbar bg="dark" variant="dark">
+                    <Navbar.Brand href="/">RuneAchievements</Navbar.Brand>
+                    <Nav>
+                        <Link to="/achievements" className="nav-link">Achievements</Link>
+                        <Link to="/about" className="nav-link">About</Link>
+                    </Nav>
+                </Navbar>
+            </div>
+            <div>
+                <Switch>
+                    <Route path="/achievements" component={Achievements} />
+                    <Route path="/about" component={About} />
+                </Switch>
             </div>
         </div>
     )

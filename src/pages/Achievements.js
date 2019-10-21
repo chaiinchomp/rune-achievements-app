@@ -1,5 +1,6 @@
 import React from 'react';
+import Achievement from '../components/Achievement'
 
 export default function() {
-    return <div>this is the achievements page</div>
+    return <Achievement/>
 }
