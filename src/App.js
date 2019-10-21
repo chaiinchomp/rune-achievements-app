@@ -1,14 +1,12 @@
 import React from 'react';
-import './App.css';
-import TopNav from './TopNav'
+import './common/index.css';
+import TopNav from './common/TopNav'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
+export default function App() {
   return (
     <div className="App">
       <TopNav />
     </div>
   );
 }
-
-export default App;
