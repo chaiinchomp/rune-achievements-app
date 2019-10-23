@@ -1,15 +1,13 @@
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-        "Helvetica Neue", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background-color: #282c34;
-    text-align: center;
+.App {
+    background-color: #4f575e;
 }
 
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-        monospace;
+.content {
+    min-height: 100vh;
+    margin: auto;
+    width: 100%;
+}
+
+.achievement-card {
+    margin: 10px;
 }
