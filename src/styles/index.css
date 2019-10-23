@@ -11,3 +11,7 @@
 .achievement-card {
     margin: 10px;
 }
+
+.incomplete {
+    opacity: 0.3;
+}
