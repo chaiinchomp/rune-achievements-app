@@ -8,7 +8,12 @@ Achievement.propTypes = {
     description: PropTypes.string.isRequired
 };
 
-export default function Achievement({ title, description, imgUrl, completed }) {
+export default function Achievement({
+    title,
+    description,
+    simpleCriteria,
+    completed
+}) {
     return (
         <React.Fragment>
             <Card
@@ -20,11 +25,13 @@ export default function Achievement({ title, description, imgUrl, completed }) {
                     <Card.Subtitle className="mb-2 text-muted">
                         {description}
                     </Card.Subtitle>
-                    <Subtask
-                        description=""
-                        imgUrl={imgUrl}
-                        completed={completed}
-                    />
+                    {simpleCriteria && (
+                        <Subtask
+                            description={simpleCriteria.name}
+                            imgUrl={simpleCriteria.iconUrl}
+                            completed={completed}
+                        />
+                    )}
                 </Card.Body>
             </Card>
         </React.Fragment>

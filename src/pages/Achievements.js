@@ -21,8 +21,8 @@ export default function() {
             key={achievement.uuid}
             title={achievement.name}
             description={achievement.description}
-            imgUrl={achievement.iconUrl}
-            completed={achievement.completed}
+            simpleCriteria={achievement.simpleCriteria}
+            completed
         />
     ));
 
