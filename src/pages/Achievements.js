@@ -5,21 +5,29 @@ import CategorySelector from "../components/CategorySelector";
 import "../styles/index.css";
 
 export default function() {
+    const [category, setCategory] = useState("CHARACTER");
     const [achievements, setAchievements] = useState([]);
 
     useEffect(() => {
-        fetch("https://rune-achievements.herokuapp.com/achievement", {
-            method: "GET"
-        })
+        fetch(
+            `https://rune-achievements.herokuapp.com/achievement/category?category=${category}`,
+            {
+                method: "GET"
+            }
+        )
             .then(result => result.json())
             .then(data => {
                 setAchievements(data);
             })
             .catch(console.log);
-    }, []);
+    }, [category]);
+
+    const categoryChangeCallback = newCategory => {
+        setCategory(newCategory);
+    };
 
     const achievementList = achievements.map(achievement => (
-        <Achievement achievement={achievement} />
+        <Achievement key={achievement.uuid} achievement={achievement} />
     ));
 
     return (
@@ -28,7 +36,9 @@ export default function() {
                 <tbody>
                     <tr>
                         <td style={{ border: "0px" }}>
-                            <CategorySelector />
+                            <CategorySelector
+                                categoryChangeCallback={categoryChangeCallback}
+                            />
                         </td>
                         <td style={{ border: "0px" }}>
                             <Accordion>{achievementList}</Accordion>

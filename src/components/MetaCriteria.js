@@ -21,6 +21,7 @@ export default function Achievement({ title, description, criteria }) {
             />
             {criteria.subtasks.map(subtask => (
                 <Subtask
+                    key={subtask.achievementId}
                     title={subtask.name}
                     description={subtask.description}
                 />

@@ -20,7 +20,11 @@ export default function SubtaskAchievement({ title, description, criteria }) {
                 requiredCount={criteria.requiredCount}
             />
             {criteria.subtasks.map(subtask => (
-                <Subtask description={subtask.name} imgUrl={subtask.iconUrl} />
+                <Subtask
+                    key={subtask.taskId}
+                    description={subtask.name}
+                    imgUrl={subtask.iconUrl}
+                />
             ))}
         </React.Fragment>
     );
