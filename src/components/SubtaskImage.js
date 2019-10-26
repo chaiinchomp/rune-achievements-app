@@ -19,7 +19,10 @@ export default function SubtaskImage({ description, imgUrl, completed }) {
                 placement="top"
                 overlay={<Tooltip>{description}</Tooltip>}
             >
-                <Image src={imgUrl} className={completed ? "" : "incomplete"} />
+                <Image
+                    src={imgUrl}
+                    className={completed ? "m-2" : "incomplete m-2"}
+                />
             </OverlayTrigger>
         </React.Fragment>
     );

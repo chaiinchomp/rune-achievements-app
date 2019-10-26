@@ -10,8 +10,13 @@
 
 .achievement-card {
     margin: 10px;
+    width: 32rem;
 }
 
-.incomplete {
+.text-criteria {
+    font-size: small;
+}
+
+.incomplete-img {
     opacity: 0.3;
 }
