@@ -2,13 +2,17 @@ import React from "react";
 import { Image, OverlayTrigger, Tooltip } from "react-bootstrap";
 import PropTypes from "prop-types";
 
-Subtask.propTypes = {
+SubtaskImage.propTypes = {
     description: PropTypes.string.isRequired,
     imgUrl: PropTypes.string.isRequired,
-    completed: PropTypes.bool.isRequired
+    completed: PropTypes.bool
 };
 
-export default function Subtask({ description, imgUrl, completed }) {
+SubtaskImage.defaultProps = {
+    completed: true
+};
+
+export default function SubtaskImage({ description, imgUrl, completed }) {
     return (
         <React.Fragment>
             <OverlayTrigger

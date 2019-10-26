@@ -1,39 +1,49 @@
 import React from "react";
-import { Card } from "react-bootstrap";
 import PropTypes from "prop-types";
-import Subtask from "./Subtask";
+import SimpleAchievement from "../components/SimpleAchievement";
+import SubtaskAchievement from "../components/SubtaskAchievement";
+import NumericAchievement from "../components/NumericAchievement";
+import MetaAchievement from "../components/MetaAchievement";
 
 Achievement.propTypes = {
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired
+    achievement: PropTypes.object.isRequired
 };
 
-export default function Achievement({
-    title,
-    description,
-    simpleCriteria,
-    completed
-}) {
+export default function Achievement({ achievement }) {
     return (
         <React.Fragment>
-            <Card
-                style={{ width: "18rem" }}
-                className="bg-dark text-white achievement-card"
-            >
-                <Card.Header className="text-center">{title}</Card.Header>
-                <Card.Body>
-                    <Card.Subtitle className="mb-2 text-muted">
-                        {description}
-                    </Card.Subtitle>
-                    {simpleCriteria && (
-                        <Subtask
-                            description={simpleCriteria.name}
-                            imgUrl={simpleCriteria.iconUrl}
-                            completed={completed}
-                        />
-                    )}
-                </Card.Body>
-            </Card>
+            {achievement.simpleCriteria && (
+                <SimpleAchievement
+                    key={achievement.uuid}
+                    title={achievement.name}
+                    description={achievement.description}
+                    criteria={achievement.simpleCriteria}
+                />
+            )}
+            {achievement.subtaskCriteria && (
+                <SubtaskAchievement
+                    key={achievement.uuid}
+                    title={achievement.name}
+                    description={achievement.description}
+                    criteria={achievement.subtaskCriteria}
+                />
+            )}
+            {achievement.numericCriteria && (
+                <NumericAchievement
+                    key={achievement.uuid}
+                    title={achievement.name}
+                    description={achievement.description}
+                    criteria={achievement.numericCriteria}
+                />
+            )}
+            {achievement.metaCriteria && (
+                <MetaAchievement
+                    key={achievement.uuid}
+                    title={achievement.name}
+                    description={achievement.description}
+                    criteria={achievement.metaCriteria}
+                />
+            )}
         </React.Fragment>
     );
 }

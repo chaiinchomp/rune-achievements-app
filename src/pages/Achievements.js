@@ -17,13 +17,7 @@ export default function() {
     }, []);
 
     const achievementList = achievements.map(achievement => (
-        <Achievement
-            key={achievement.uuid}
-            title={achievement.name}
-            description={achievement.description}
-            simpleCriteria={achievement.simpleCriteria}
-            completed
-        />
+        <Achievement achievement={achievement} />
     ));
 
     return <div className="content">{achievementList}</div>;
