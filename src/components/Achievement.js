@@ -1,10 +1,11 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 import PropTypes from "prop-types";
-import SimpleCriteria from "../components/SimpleCriteria";
-import SubtaskCriteria from "../components/SubtaskCriteria";
-import NumericCriteria from "../components/NumericCriteria";
-import MetaCriteria from "../components/MetaCriteria";
+import SimpleCriteria from "./SimpleCriteria";
+import SubtaskCriteria from "./SubtaskCriteria";
+import NumericCriteria from "./NumericCriteria";
+import MetaCriteria from "./MetaCriteria";
+import AchievementWrapper from "./AchievementWrapper";
 
 Achievement.propTypes = {
     achievement: PropTypes.object.isRequired
@@ -12,20 +13,22 @@ Achievement.propTypes = {
 
 export default function Achievement({ achievement }) {
     return (
-        <Card
-            className="bg-dark text-white achievement-card"
-            key={achievement.uuid}
-        >
-            <Card.Header className="text-center">
-                {achievement.name}
-            </Card.Header>
-            <Card.Body>
-                <Card.Subtitle className="mb-3">
-                    {achievement.description}
-                </Card.Subtitle>
-                {renderCriteria(achievement)}
-            </Card.Body>
-        </Card>
+        <AchievementWrapper achievement={achievement}>
+            <Card
+                className="bg-dark text-white achievement-card"
+                key={achievement.uuid}
+            >
+                <Card.Header className="text-center">
+                    {achievement.name}
+                </Card.Header>
+                <Card.Body>
+                    <Card.Subtitle className="mb-3">
+                        {achievement.description}
+                    </Card.Subtitle>
+                    {renderCriteria(achievement)}
+                </Card.Body>
+            </Card>
+        </AchievementWrapper>
     );
 }
 
