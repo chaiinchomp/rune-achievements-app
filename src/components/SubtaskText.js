@@ -19,7 +19,9 @@ export default function SubtaskText({ title, description, completed }) {
                 placement="top"
                 overlay={<Tooltip>{description}</Tooltip>}
             >
-                <div className={completed ? "" : "incomplete"}>{title}</div>
+                <div className={completed ? "small" : "small text-muted"}>
+                    {title}
+                </div>
             </OverlayTrigger>
         </React.Fragment>
     );
