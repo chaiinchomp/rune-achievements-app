@@ -20,3 +20,8 @@
 .incomplete-img {
     opacity: 0.3;
 }
+
+.hide-show-button {
+    width: 10%;
+    margin: auto;
+}

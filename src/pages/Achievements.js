@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Accordion } from "react-bootstrap";
 import Achievement from "../components/Achievement";
 import "../styles/index.css";
 
@@ -20,5 +21,9 @@ export default function() {
         <Achievement achievement={achievement} />
     ));
 
-    return <div className="content">{achievementList}</div>;
+    return (
+        <div className="content">
+            <Accordion>{achievementList}</Accordion>
+        </div>
+    );
 }
