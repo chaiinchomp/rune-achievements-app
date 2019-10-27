@@ -4,8 +4,16 @@ import { Link } from "react-router-dom";
 
 export default function() {
     return (
-        <React.Fragment>
-            <Jumbotron>
+        <div
+            style={{
+                width: "80%",
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginTop: "20px"
+            }}
+            className="content"
+        >
+            <Jumbotron className="bg-dark text-white">
                 <h1>RuneAchievements</h1>
                 <p>
                     This site is intended to solve what I see as a problem with
@@ -38,7 +46,7 @@ export default function() {
                     tendencies.
                 </p>
             </Jumbotron>
-            <Jumbotron>
+            <Jumbotron className="bg-dark text-white">
                 <h1>Roadmap</h1>
                 <p>
                     Planned functionality:
@@ -74,7 +82,7 @@ export default function() {
                     </ul>
                 </p>
             </Jumbotron>
-            <Jumbotron>
+            <Jumbotron className="bg-dark text-white">
                 <h1>About the Developer</h1>
                 <p>
                     RuneAchievements is handcrafted by
@@ -93,6 +101,7 @@ export default function() {
                     .
                 </p>
             </Jumbotron>
-        </React.Fragment>
+            <br />
+        </div>
     );
 }
