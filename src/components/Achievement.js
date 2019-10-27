@@ -19,19 +19,19 @@ export default function Achievement({ achievement }) {
                 className="bg-dark text-white achievement-card"
                 key={achievement.uuid}
             >
-                <Card.Header className="text-center">
-                    {achievement.name}
-                </Card.Header>
-                <Card.Body>
-                    <HideShow eventKey={achievement.uuid}>
-                        <Card.Subtitle className="mb-3">
-                            {achievement.description}
-                        </Card.Subtitle>
-                    </HideShow>
+                <HideShow eventKey={achievement.uuid}>
+                    <Card.Header className="text-center">
+                        {achievement.name}
+                    </Card.Header>
+                    <Card.Body>
+                        <Card.Subtitle>{achievement.description}</Card.Subtitle>
+                    </Card.Body>
+                </HideShow>
+                <Card.Text className="m-2">
                     <Accordion.Collapse eventKey={achievement.uuid}>
                         {renderCriteria(achievement)}
                     </Accordion.Collapse>
-                </Card.Body>
+                </Card.Text>
             </Card>
         </AchievementWrapper>
     );
