@@ -3,13 +3,11 @@ import PropTypes from "prop-types";
 import Subtask from "./SubtaskImage";
 import AchievementDescription from "./CriteriaHeader";
 
-SubtaskAchievement.propTypes = {
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+SubtaskCriteria.propTypes = {
     criteria: PropTypes.object.isRequired
 };
 
-export default function SubtaskAchievement({ title, description, criteria }) {
+export default function SubtaskCriteria({ criteria }) {
     // TODO placeholder, use state
     const completedCount = 1;
 

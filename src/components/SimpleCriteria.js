@@ -3,13 +3,11 @@ import PropTypes from "prop-types";
 import Subtask from "./SubtaskImage";
 import CriteriaHeader from "./CriteriaHeader";
 
-SimpleAchievement.propTypes = {
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+SimpleCriteria.propTypes = {
     criteria: PropTypes.object.isRequired
 };
 
-export default function SimpleAchievement({ title, description, criteria }) {
+export default function SimpleCriteria({ criteria }) {
     return (
         <React.Fragment>
             <CriteriaHeader />

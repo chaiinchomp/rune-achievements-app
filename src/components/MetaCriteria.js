@@ -3,13 +3,11 @@ import PropTypes from "prop-types";
 import Subtask from "./SubtaskText";
 import CriteriaHeader from "./CriteriaHeader";
 
-Achievement.propTypes = {
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+MetaCriteria.propTypes = {
     criteria: PropTypes.object.isRequired
 };
 
-export default function Achievement({ title, description, criteria }) {
+export default function MetaCriteria({ criteria }) {
     // TODO placeholder, use state
     const completedCount = 1;
 
