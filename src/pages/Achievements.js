@@ -35,12 +35,12 @@ export default function() {
             <Table style={{ width: "80%", margin: "auto" }}>
                 <tbody>
                     <tr>
-                        <td style={{ border: "0px" }}>
+                        <td style={{ width: "30%", border: "0px" }}>
                             <CategorySelector
                                 categoryChangeCallback={categoryChangeCallback}
                             />
                         </td>
-                        <td style={{ border: "0px" }}>
+                        <td style={{ width: "50%", border: "0px" }}>
                             <Accordion>{achievementList}</Accordion>
                         </td>
                     </tr>
