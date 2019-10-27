@@ -5,7 +5,10 @@ import editIcon from "../resources/edit.svg";
 export default function EditButton() {
     return (
         <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
-            <Image src={editIcon} className="small float-right ml-2" />
+            <Image
+                src={editIcon}
+                className="small float-right ml-2 clickable"
+            />
         </OverlayTrigger>
     );
 }

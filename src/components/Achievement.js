@@ -81,7 +81,7 @@ function HideShow({ children, eventKey }) {
         <div onClick={useAccordionToggle(eventKey)}>
             {children}
             <div className="hide-show-button">
-                <Image src={downarrow} />
+                <Image src={downarrow} className="clickable" />
             </div>
         </div>
     );

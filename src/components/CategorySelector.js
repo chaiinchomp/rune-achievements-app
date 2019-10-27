@@ -16,7 +16,7 @@ export default function CategoryList({ categoryChangeCallback }) {
                     if (key === category) {
                         listItemStyle = "bg-secondary text-white";
                     } else {
-                        listItemStyle = "bg-dark text-white";
+                        listItemStyle = "bg-dark text-white clickable";
                     }
 
                     return (
