@@ -26,6 +26,8 @@ export default function SimpleCriteria({ criteria }) {
     return (
         <React.Fragment>
             <CriteriaHeader
+                completedCount={complete ? 1 : 0}
+                requiredCount={1}
                 enableEditModeCallback={enableEditModeCallback}
                 disableEditModeCallback={disableEditModeCallback}
                 isEditMode={editMode}

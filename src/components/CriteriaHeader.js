@@ -31,11 +31,9 @@ export default function CriteriaHeader({
                         enableEditModeCallback={enableEditModeCallback}
                     />
                 )}
-                {completedCount != null && requiredCount != null && (
-                    <div className="mb-2 small float-right">
-                        {completedCount}/{requiredCount}
-                    </div>
-                )}
+                <div className="mb-2 small float-right">
+                    {completedCount}/{requiredCount}
+                </div>
                 <div className="mb-2 small">Criteria:</div>
             </Card.Subtitle>
         </React.Fragment>
