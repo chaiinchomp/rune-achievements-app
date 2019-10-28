@@ -20,22 +20,16 @@ export default function CriteriaHeader({
     requiredCount
 }) {
     return (
-        <React.Fragment>
-            <Card.Subtitle>
-                {isEditMode ? (
-                    <SaveButton
-                        disableEditModeCallback={disableEditModeCallback}
-                    />
-                ) : (
-                    <EditButton
-                        enableEditModeCallback={enableEditModeCallback}
-                    />
-                )}
-                <div className="mb-2 small float-right">
-                    {completedCount}/{requiredCount}
-                </div>
-                <div className="mb-2 small">Criteria:</div>
-            </Card.Subtitle>
-        </React.Fragment>
+        <Card.Subtitle>
+            {isEditMode ? (
+                <SaveButton disableEditModeCallback={disableEditModeCallback} />
+            ) : (
+                <EditButton enableEditModeCallback={enableEditModeCallback} />
+            )}
+            <div className="mb-2 small float-right">
+                {completedCount}/{requiredCount}
+            </div>
+            <div className="mb-2 small">Criteria:</div>
+        </Card.Subtitle>
     );
 }

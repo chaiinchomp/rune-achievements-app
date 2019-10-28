@@ -9,7 +9,7 @@ SubtaskText.propTypes = {
 };
 
 SubtaskText.defaultProps = {
-    completed: true
+    completed: false
 };
 
 export default function SubtaskText({ title, description, completed }) {
