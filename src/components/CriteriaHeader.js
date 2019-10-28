@@ -2,20 +2,35 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import PropTypes from "prop-types";
 import EditButton from "./EditButton";
+import SaveButton from "./SaveButton";
 
-AchievementDescription.propTypes = {
+CriteriaHeader.propTypes = {
+    enableEditModeCallback: PropTypes.func,
+    disableEditModeCallback: PropTypes.func,
+    isEditMode: PropTypes.bool,
     completedCount: PropTypes.number,
     requiredCount: PropTypes.number
 };
 
-export default function AchievementDescription({
+export default function CriteriaHeader({
+    enableEditModeCallback,
+    disableEditModeCallback,
+    isEditMode,
     completedCount,
     requiredCount
 }) {
     return (
         <React.Fragment>
             <Card.Subtitle>
-                <EditButton />
+                {isEditMode ? (
+                    <SaveButton
+                        disableEditModeCallback={disableEditModeCallback}
+                    />
+                ) : (
+                    <EditButton
+                        enableEditModeCallback={enableEditModeCallback}
+                    />
+                )}
                 {completedCount && requiredCount && (
                     <div className="mb-2 small float-right">
                         {completedCount}/{requiredCount}

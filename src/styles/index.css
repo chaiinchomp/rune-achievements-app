@@ -29,3 +29,17 @@
 .clickable {
     cursor: pointer;
 }
+
+.completed-outline {
+    -webkit-filter: drop-shadow(1px 1px 0 green) drop-shadow(-1px 1px 0 green)
+        drop-shadow(1px -1px 0 green) drop-shadow(-1px -1px 0 green);
+    filter: drop-shadow(1px 1px 0 green) drop-shadow(-1px 1px 0 green)
+        drop-shadow(1px -1px 0 green) drop-shadow(-1px -1px 0 green);
+}
+
+.not-completed-outline {
+    -webkit-filter: drop-shadow(1px 1px 0 red) drop-shadow(-1px 1px 0 red)
+        drop-shadow(1px -1px 0 red) drop-shadow(-1px -1px 0 red);
+    filter: drop-shadow(1px 1px 0 red) drop-shadow(-1px 1px 0 red)
+        drop-shadow(1px -1px 0 red) drop-shadow(-1px -1px 0 red);
+}
