@@ -2,14 +2,20 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Subtask from "./SubtaskImage";
 import CriteriaHeader from "./CriteriaHeader";
+import {
+    isTaskComplete,
+    setTaskComplete,
+    setAchievementComplete
+} from "../storage/LocalStorageClient";
 
 SimpleCriteria.propTypes = {
+    achievementId: PropTypes.string.isRequired,
     criteria: PropTypes.object.isRequired
 };
 
-export default function SimpleCriteria({ criteria }) {
+export default function SimpleCriteria({ achievementId, criteria }) {
     const [editMode, setEditMode] = useState(false);
-    const [complete, setComplete] = useState(false);
+    const [complete, setComplete] = useState(isTaskComplete(criteria.taskId));
 
     const enableEditModeCallback = () => {
         setEditMode(true);
@@ -21,6 +27,8 @@ export default function SimpleCriteria({ criteria }) {
 
     const toggleItemCompletionCallback = (itemId, isComplete) => {
         setComplete(isComplete);
+        setTaskComplete(itemId, isComplete);
+        setAchievementComplete(achievementId, isComplete);
     };
 
     return (

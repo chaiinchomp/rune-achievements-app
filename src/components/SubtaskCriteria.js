@@ -2,18 +2,25 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Subtask from "./SubtaskImage";
 import AchievementDescription from "./CriteriaHeader";
+import {
+    isTaskComplete,
+    setTaskComplete,
+    setAchievementComplete
+} from "../storage/LocalStorageClient";
 
 SubtaskCriteria.propTypes = {
+    achievementId: PropTypes.string.isRequired,
     criteria: PropTypes.object.isRequired
 };
 
-export default function SubtaskCriteria({ criteria }) {
+export default function SubtaskCriteria({ achievementId, criteria }) {
     const [editMode, setEditMode] = useState(false);
-    const [completionMap, setCompletionMap] = useState({});
-
-    // HACK: for some reason updating the completion map state
-    // doesn't trigger a re-render so doing it manually
-    const [forceUpdate, setForceUpdate] = useState(true);
+    const [completionMap, setCompletionMap] = useState(
+        getCompletionStatus(criteria.subtasks)
+    );
+    const [completedCount, setCompletedCount] = useState(
+        updateCompletedCount(completionMap)
+    );
 
     const enableEditModeCallback = () => {
         setEditMode(true);
@@ -27,13 +34,18 @@ export default function SubtaskCriteria({ criteria }) {
         var curMap = completionMap;
         curMap[itemId] = isComplete;
         setCompletionMap(curMap);
-        setForceUpdate(!forceUpdate);
+        setTaskComplete(itemId);
+        setCompletedCount(completedCount + (isComplete ? 1 : -1));
+        setAchievementComplete(
+            achievementId,
+            completedCount >= criteria.requiredCount
+        );
     };
 
     return (
         <React.Fragment>
             <AchievementDescription
-                completedCount={updateCompletedCount(completionMap)}
+                completedCount={completedCount}
                 requiredCount={criteria.requiredCount}
                 enableEditModeCallback={enableEditModeCallback}
                 disableEditModeCallback={disableEditModeCallback}
@@ -52,6 +64,14 @@ export default function SubtaskCriteria({ criteria }) {
             ))}
         </React.Fragment>
     );
+}
+
+function getCompletionStatus(tasks) {
+    const completionMap = {};
+    tasks.forEach(task => {
+        completionMap[task.taskId] = isTaskComplete(task.taskId);
+    });
+    return completionMap;
 }
 
 function updateCompletedCount(completionMap) {

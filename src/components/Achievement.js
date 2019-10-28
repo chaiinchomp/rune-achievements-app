@@ -43,32 +43,28 @@ function renderCriteria(achievement) {
             {achievement.simpleCriteria && (
                 <SimpleCriteria
                     key={achievement.uuid}
-                    title={achievement.name}
-                    description={achievement.description}
+                    achievementId={achievement.uuid}
                     criteria={achievement.simpleCriteria}
                 />
             )}
             {achievement.subtaskCriteria && (
                 <SubtaskCriteria
                     key={achievement.uuid}
-                    title={achievement.name}
-                    description={achievement.description}
+                    achievementId={achievement.uuid}
                     criteria={achievement.subtaskCriteria}
                 />
             )}
             {achievement.numericCriteria && (
                 <NumericCriteria
                     key={achievement.uuid}
-                    title={achievement.name}
-                    description={achievement.description}
+                    achievementId={achievement.uuid}
                     criteria={achievement.numericCriteria}
                 />
             )}
             {achievement.metaCriteria && (
                 <MetaCriteria
                     key={achievement.uuid}
-                    title={achievement.name}
-                    description={achievement.description}
+                    achievementId={achievement.uuid}
                     criteria={achievement.metaCriteria}
                 />
             )}

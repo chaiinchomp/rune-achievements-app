@@ -4,10 +4,11 @@ import Subtask from "./SubtaskText";
 import CriteriaHeader from "./CriteriaHeader";
 
 MetaCriteria.propTypes = {
+    achievementId: PropTypes.string.isRequired,
     criteria: PropTypes.object.isRequired
 };
 
-export default function MetaCriteria({ criteria }) {
+export default function MetaCriteria({ achievementId, criteria }) {
     // TODO placeholder, use state
     const completedCount = 1;
 
