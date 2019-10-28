@@ -19,7 +19,7 @@ export default function SimpleCriteria({ criteria }) {
         setEditMode(false);
     };
 
-    const toggleItemCompletionCallback = isComplete => {
+    const toggleItemCompletionCallback = (itemId, isComplete) => {
         setComplete(isComplete);
     };
 
@@ -31,9 +31,9 @@ export default function SimpleCriteria({ criteria }) {
                 isEditMode={editMode}
             />
             <Subtask
+                taskId={criteria.taskId}
                 description={criteria.name}
                 imgUrl={criteria.iconUrl}
-                showOutlines={editMode}
                 isEditMode={editMode}
                 completed={complete}
                 toggleItemCompletionCallback={toggleItemCompletionCallback}

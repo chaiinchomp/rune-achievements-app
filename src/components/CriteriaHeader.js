@@ -31,7 +31,7 @@ export default function CriteriaHeader({
                         enableEditModeCallback={enableEditModeCallback}
                     />
                 )}
-                {completedCount && requiredCount && (
+                {completedCount != null && requiredCount != null && (
                     <div className="mb-2 small float-right">
                         {completedCount}/{requiredCount}
                     </div>
