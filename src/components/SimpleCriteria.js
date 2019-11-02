@@ -2,18 +2,15 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Subtask from "./SubtaskImage";
 import CriteriaHeader from "./CriteriaHeader";
-import {
-    isTaskComplete,
-    setTaskComplete,
-    setAchievementComplete
-} from "../storage/LocalStorageClient";
+import { isTaskComplete } from "../util/LocalStorageClient";
 
 SimpleCriteria.propTypes = {
     achievementId: PropTypes.string.isRequired,
-    criteria: PropTypes.object.isRequired
+    criteria: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired
 };
 
-export default function SimpleCriteria({ achievementId, criteria }) {
+export default function SimpleCriteria({ achievementId, criteria, onChange }) {
     const [editMode, setEditMode] = useState(false);
     const [complete, setComplete] = useState(isTaskComplete(criteria.taskId));
 
@@ -21,14 +18,18 @@ export default function SimpleCriteria({ achievementId, criteria }) {
         setEditMode(true);
     };
 
-    const disableEditModeCallback = () => {
+    const saveChangesCallback = () => {
         setEditMode(false);
+
+        const newAchievementState = {};
+        newAchievementState[achievementId] = complete;
+        const newTaskState = {};
+        newTaskState[criteria.taskId] = complete;
+        onChange(newAchievementState, newTaskState);
     };
 
     const toggleItemCompletionCallback = (itemId, isComplete) => {
         setComplete(isComplete);
-        setTaskComplete(itemId, isComplete);
-        setAchievementComplete(achievementId, isComplete);
     };
 
     return (
@@ -37,8 +38,9 @@ export default function SimpleCriteria({ achievementId, criteria }) {
                 completedCount={complete ? 1 : 0}
                 requiredCount={1}
                 enableEditModeCallback={enableEditModeCallback}
-                disableEditModeCallback={disableEditModeCallback}
+                saveChangesCallback={saveChangesCallback}
                 isEditMode={editMode}
+                showEditButton
             />
             <Subtask
                 taskId={criteria.taskId}

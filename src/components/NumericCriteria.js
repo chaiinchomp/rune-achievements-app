@@ -6,7 +6,7 @@ import {
     getNumericTaskCount,
     setNumericTaskCount,
     setAchievementComplete
-} from "../storage/LocalStorageClient";
+} from "../util/LocalStorageClient";
 
 NumericCriteria.propTypes = {
     achievementId: PropTypes.string.isRequired,
@@ -24,7 +24,7 @@ export default function NumericCriteria({ achievementId, criteria }) {
         setEditMode(true);
     };
 
-    const disableEditModeCallback = () => {
+    const saveChangesCallback = () => {
         setNumericTaskCount(criteria.taskId, completedCount);
         setEditMode(false);
         setAchievementComplete(
@@ -39,8 +39,9 @@ export default function NumericCriteria({ achievementId, criteria }) {
                 completedCount={completedCount}
                 requiredCount={requiredCount}
                 enableEditModeCallback={enableEditModeCallback}
-                disableEditModeCallback={disableEditModeCallback}
+                saveChangesCallback={saveChangesCallback}
                 isEditMode={editMode}
+                showEditButton
             />
             <ProgressBar
                 striped

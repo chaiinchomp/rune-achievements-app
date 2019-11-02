@@ -2,7 +2,7 @@ import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Route, Switch } from "react-router-dom";
-import Achievements from "../pages/Achievements";
+import AchievementLog from "../pages/AchievementLog";
 import About from "../pages/About";
 
 export default function() {
@@ -23,7 +23,7 @@ export default function() {
             </React.Fragment>
             <React.Fragment>
                 <Switch>
-                    <Route path="/achievements" component={Achievements} />
+                    <Route path="/achievements" component={AchievementLog} />
                     <Route path="/about" component={About} />
                 </Switch>
             </React.Fragment>

@@ -9,10 +9,12 @@ import AchievementWrapper from "./AchievementWrapper";
 import downarrow from "../resources/downarrow.svg";
 
 Achievement.propTypes = {
-    achievement: PropTypes.object.isRequired
+    achievement: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired
 };
 
-export default function Achievement({ achievement }) {
+export default function Achievement({ achievement, onChange }) {
+    console.log("Rendering achievement: " + JSON.stringify(achievement));
     return (
         <AchievementWrapper achievement={achievement}>
             <Card
@@ -29,7 +31,7 @@ export default function Achievement({ achievement }) {
                 </HideShow>
                 <Card.Text className="m-2">
                     <Accordion.Collapse eventKey={achievement.uuid}>
-                        {renderCriteria(achievement)}
+                        {renderCriteria(achievement, onChange)}
                     </Accordion.Collapse>
                 </Card.Text>
             </Card>
@@ -37,7 +39,7 @@ export default function Achievement({ achievement }) {
     );
 }
 
-function renderCriteria(achievement) {
+function renderCriteria(achievement, onChange) {
     return (
         <React.Fragment>
             {achievement.simpleCriteria && (
@@ -45,6 +47,7 @@ function renderCriteria(achievement) {
                     key={achievement.uuid}
                     achievementId={achievement.uuid}
                     criteria={achievement.simpleCriteria}
+                    onChange={onChange}
                 />
             )}
             {achievement.subtaskCriteria && (
@@ -52,6 +55,7 @@ function renderCriteria(achievement) {
                     key={achievement.uuid}
                     achievementId={achievement.uuid}
                     criteria={achievement.subtaskCriteria}
+                    onChange={onChange}
                 />
             )}
             {achievement.numericCriteria && (
@@ -59,6 +63,7 @@ function renderCriteria(achievement) {
                     key={achievement.uuid}
                     achievementId={achievement.uuid}
                     criteria={achievement.numericCriteria}
+                    onChange={onChange}
                 />
             )}
             {achievement.metaCriteria && (

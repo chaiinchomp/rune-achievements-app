@@ -1,19 +1,16 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Subtask from "./SubtaskImage";
-import AchievementDescription from "./CriteriaHeader";
-import {
-    isTaskComplete,
-    setTaskComplete,
-    setAchievementComplete
-} from "../storage/LocalStorageClient";
+import CriteriaHeader from "./CriteriaHeader";
+import { isTaskComplete } from "../util/LocalStorageClient";
 
 SubtaskCriteria.propTypes = {
     achievementId: PropTypes.string.isRequired,
-    criteria: PropTypes.object.isRequired
+    criteria: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired
 };
 
-export default function SubtaskCriteria({ achievementId, criteria }) {
+export default function SubtaskCriteria({ achievementId, criteria, onChange }) {
     const [editMode, setEditMode] = useState(false);
     const [completionMap, setCompletionMap] = useState(
         getCompletionStatus(criteria.subtasks)
@@ -26,30 +23,31 @@ export default function SubtaskCriteria({ achievementId, criteria }) {
         setEditMode(true);
     };
 
-    const disableEditModeCallback = () => {
+    const saveChangesCallback = () => {
         setEditMode(false);
+
+        const newAchievementState = {};
+        newAchievementState[achievementId] =
+            completedCount >= criteria.requiredCount;
+        onChange(newAchievementState, completionMap);
     };
 
     const toggleItemCompletionCallback = (itemId, isComplete) => {
         var curMap = completionMap;
         curMap[itemId] = isComplete;
         setCompletionMap(curMap);
-        setTaskComplete(itemId);
         setCompletedCount(completedCount + (isComplete ? 1 : -1));
-        setAchievementComplete(
-            achievementId,
-            completedCount >= criteria.requiredCount
-        );
     };
 
     return (
         <React.Fragment>
-            <AchievementDescription
+            <CriteriaHeader
                 completedCount={completedCount}
                 requiredCount={criteria.requiredCount}
                 enableEditModeCallback={enableEditModeCallback}
-                disableEditModeCallback={disableEditModeCallback}
+                saveChangesCallback={saveChangesCallback}
                 isEditMode={editMode}
+                showEditButton
             />
             {criteria.subtasks.map(subtask => (
                 <Subtask

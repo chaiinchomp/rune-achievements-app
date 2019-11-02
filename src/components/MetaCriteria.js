@@ -1,11 +1,8 @@
 import React, { useState } from "react";
-import { Card } from "react-bootstrap";
 import PropTypes from "prop-types";
 import Subtask from "./SubtaskText";
-import {
-    isAchievementComplete,
-    setAchievementComplete
-} from "../storage/LocalStorageClient";
+import CriteriaHeader from "./CriteriaHeader";
+import { isAchievementComplete } from "../util/LocalStorageClient";
 
 MetaCriteria.propTypes = {
     achievementId: PropTypes.string.isRequired,
@@ -13,21 +10,16 @@ MetaCriteria.propTypes = {
 };
 
 export default function MetaCriteria({ achievementId, criteria }) {
-    const [completionMap, setCompletionMap] = useState(
-        getCompletionStatus(criteria.subtasks)
-    );
-    const [completedCount, setCompletedCount] = useState(
-        updateCompletedCount(completionMap)
-    );
+    const [completionMap] = useState(getCompletionStatus(criteria.subtasks));
+    const [completedCount] = useState(updateCompletedCount(completionMap));
 
     return (
         <React.Fragment>
-            <Card.Subtitle>
-                <div className="mb-2 small float-right">
-                    {completedCount}/{criteria.subtasks.length}
-                </div>
-                <div className="mb-2 small">Criteria:</div>
-            </Card.Subtitle>
+            <CriteriaHeader
+                completedCount={completedCount}
+                requiredCount={criteria.subtasks.length}
+                showEditButton={false}
+            />
             {criteria.subtasks.map(subtask => (
                 <Subtask
                     key={subtask.achievementId}

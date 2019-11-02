@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Accordion, Table } from "react-bootstrap";
-import Achievement from "../components/Achievement";
-import CategorySelector from "../components/CategorySelector";
+import { Table } from "react-bootstrap";
+import CategorySelector from "../views/CategorySelector";
+import AchievementList from "../views/AchievementList";
 import "../styles/index.css";
 
 export default function() {
@@ -26,10 +26,6 @@ export default function() {
         setCategory(newCategory);
     };
 
-    const achievementList = achievements.map(achievement => (
-        <Achievement key={achievement.uuid} achievement={achievement} />
-    ));
-
     return (
         <div className="content">
             <Table style={{ width: "80%", margin: "auto" }}>
@@ -41,7 +37,7 @@ export default function() {
                             />
                         </td>
                         <td style={{ width: "50%", border: "0px" }}>
-                            <Accordion>{achievementList}</Accordion>
+                            <AchievementList achievementList={achievements} />
                         </td>
                     </tr>
                 </tbody>
