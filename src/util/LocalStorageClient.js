@@ -23,3 +23,11 @@ export function isAchievementComplete(achievementId) {
 export function setAchievementComplete(achievementId, isComplete) {
     return LocalStorage.set(achievementId, isComplete);
 }
+
+export function getSeriesCompletion(seriesId) {
+    return LocalStorage.get(seriesId) || 1;
+}
+
+export function setSeriesCompletion(seriesId, seriesOrdinal) {
+    return LocalStorage.set(seriesId, seriesOrdinal);
+}
