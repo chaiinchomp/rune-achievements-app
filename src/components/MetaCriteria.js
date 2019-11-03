@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import Subtask from "./SubtaskText";
+import Subtask from "./Subtask";
 import CriteriaHeader from "./CriteriaHeader";
 import { isAchievementComplete } from "../util/LocalStorageClient";
 

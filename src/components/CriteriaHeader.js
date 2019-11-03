@@ -2,7 +2,6 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import PropTypes from "prop-types";
 import EditButton from "./EditButton";
-import SaveButton from "./SaveButton";
 
 CriteriaHeader.propTypes = {
     enableEditModeCallback: PropTypes.func,
@@ -23,14 +22,13 @@ export default function CriteriaHeader({
 }) {
     return (
         <Card.Subtitle>
-            {showEditButton &&
-                (isEditMode ? (
-                    <SaveButton saveChangesCallback={saveChangesCallback} />
-                ) : (
-                    <EditButton
-                        enableEditModeCallback={enableEditModeCallback}
-                    />
-                ))}
+            {showEditButton && (
+                <EditButton
+                    isEditMode={isEditMode}
+                    editButtonOnClick={enableEditModeCallback}
+                    saveButtonOnClick={saveChangesCallback}
+                />
+            )}
             <div className="mb-2 small float-right">
                 {completedCount}/{requiredCount}
             </div>

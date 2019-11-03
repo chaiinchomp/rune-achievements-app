@@ -1,11 +1,16 @@
 import React from "react";
-import { Accordion, Card, useAccordionToggle, Image } from "react-bootstrap";
+import {
+    Accordion,
+    Card,
+    OverlayTrigger,
+    Tooltip,
+    useAccordionToggle,
+    Image
+} from "react-bootstrap";
 import PropTypes from "prop-types";
-import SimpleCriteria from "./SimpleCriteria";
-import SubtaskCriteria from "./SubtaskCriteria";
-import NumericCriteria from "./NumericCriteria";
-import MetaCriteria from "./MetaCriteria";
-import AchievementWrapper from "./AchievementWrapper";
+import SubtaskCriteria from "../components/SubtaskCriteria";
+import NumericCriteria from "../components/NumericCriteria";
+import MetaCriteria from "../components/MetaCriteria";
 import downarrow from "../resources/downarrow.svg";
 
 Achievement.propTypes = {
@@ -14,9 +19,8 @@ Achievement.propTypes = {
 };
 
 export default function Achievement({ achievement, onChange }) {
-    console.log("Rendering achievement: " + JSON.stringify(achievement));
     return (
-        <AchievementWrapper achievement={achievement}>
+        <SeriesTooltipWrapper achievement={achievement}>
             <Card
                 className="bg-dark text-white achievement-card"
                 key={achievement.uuid}
@@ -35,26 +39,21 @@ export default function Achievement({ achievement, onChange }) {
                     </Accordion.Collapse>
                 </Card.Text>
             </Card>
-        </AchievementWrapper>
+        </SeriesTooltipWrapper>
     );
 }
 
 function renderCriteria(achievement, onChange) {
     return (
         <React.Fragment>
-            {achievement.simpleCriteria && (
-                <SimpleCriteria
-                    key={achievement.uuid}
-                    achievementId={achievement.uuid}
-                    criteria={achievement.simpleCriteria}
-                    onChange={onChange}
-                />
-            )}
-            {achievement.subtaskCriteria && (
+            {(achievement.subtaskCriteria || achievement.simpleCriteria) && (
                 <SubtaskCriteria
                     key={achievement.uuid}
                     achievementId={achievement.uuid}
-                    criteria={achievement.subtaskCriteria}
+                    criteria={
+                        achievement.subtaskCriteria ||
+                        achievement.simpleCriteria
+                    }
                     onChange={onChange}
                 />
             )}
@@ -85,5 +84,34 @@ function HideShow({ children, eventKey }) {
                 <Image src={downarrow} className="clickable" />
             </div>
         </div>
+    );
+}
+
+function SeriesTooltipWrapper(props) {
+    if (props.achievement.series) {
+        return (
+            <OverlayTrigger
+                placement="right"
+                overlay={<Tooltip>{renderSeries(props.achievement)}</Tooltip>}
+            >
+                {props.children}
+            </OverlayTrigger>
+        );
+    } else {
+        return props.children;
+    }
+}
+
+function renderSeries(achievement) {
+    return (
+        <React.Fragment>
+            Series:
+            <br />
+            <div className="text-muted">
+                {achievement.series.name}
+                <br />
+                {achievement.seriesOrdinal}/{achievement.series.length}
+            </div>
+        </React.Fragment>
     );
 }

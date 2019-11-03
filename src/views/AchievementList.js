@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Accordion } from "react-bootstrap";
 import PropTypes from "prop-types";
-import Achievement from "../components/Achievement";
+import AchievementCard from "./AchievementCard";
 import {
     setAchievementComplete,
     setTaskComplete
 } from "../util/LocalStorageClient";
 import { filterAchievements } from "../util/AchievementFilter";
 
-Achievement.propTypes = {
+AchievementList.propTypes = {
     achievementList: PropTypes.array.isRequired
 };
 
@@ -35,7 +35,7 @@ export default function AchievementList({ achievementList }) {
     return (
         <Accordion>
             {achievements.map(achievement => (
-                <Achievement
+                <AchievementCard
                     key={achievement.uuid}
                     achievement={achievement}
                     onChange={saveChangesCallback}

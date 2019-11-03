@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import Subtask from "./SubtaskImage";
+import Subtask from "./Subtask";
 import CriteriaHeader from "./CriteriaHeader";
 import { isTaskComplete } from "../util/LocalStorageClient";
 
@@ -11,9 +11,12 @@ SubtaskCriteria.propTypes = {
 };
 
 export default function SubtaskCriteria({ achievementId, criteria, onChange }) {
+    const subtasks = criteria.subtasks || [criteria];
+    const requiredCount = criteria.requiredCount || 1;
     const [editMode, setEditMode] = useState(false);
+
     const [completionMap, setCompletionMap] = useState(
-        getCompletionStatus(criteria.subtasks)
+        getCompletionStatus(subtasks)
     );
     const [completedCount, setCompletedCount] = useState(
         updateCompletedCount(completionMap)
@@ -27,8 +30,7 @@ export default function SubtaskCriteria({ achievementId, criteria, onChange }) {
         setEditMode(false);
 
         const newAchievementState = {};
-        newAchievementState[achievementId] =
-            completedCount >= criteria.requiredCount;
+        newAchievementState[achievementId] = completedCount >= requiredCount;
         onChange(newAchievementState, completionMap);
     };
 
@@ -43,13 +45,13 @@ export default function SubtaskCriteria({ achievementId, criteria, onChange }) {
         <React.Fragment>
             <CriteriaHeader
                 completedCount={completedCount}
-                requiredCount={criteria.requiredCount}
+                requiredCount={requiredCount}
                 enableEditModeCallback={enableEditModeCallback}
                 saveChangesCallback={saveChangesCallback}
                 isEditMode={editMode}
                 showEditButton
             />
-            {criteria.subtasks.map(subtask => (
+            {subtasks.map(subtask => (
                 <Subtask
                     key={subtask.taskId}
                     taskId={subtask.taskId}
