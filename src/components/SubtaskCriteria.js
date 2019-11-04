@@ -1,24 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Subtask from "./Subtask";
 import CriteriaHeader from "./CriteriaHeader";
-import { isTaskComplete } from "../util/LocalStorageClient";
+import {
+    getCompletionStatus,
+    updateCompletedCount,
+    filterUpdatedKeys,
+    updateCompletionMap
+} from "../util/CompletionUtils";
 
 SubtaskCriteria.propTypes = {
-    achievementId: PropTypes.string.isRequired,
+    uuid: PropTypes.string.isRequired,
     criteria: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    completionUpdates: PropTypes.array.isRequired
 };
 
-export default function SubtaskCriteria({ achievementId, criteria, onChange }) {
+export default function SubtaskCriteria({
+    uuid,
+    criteria,
+    onChange,
+    completionUpdates
+}) {
     const [editMode, setEditMode] = useState(false);
-
     const [completionMap, setCompletionMap] = useState(
         getCompletionStatus(criteria.subtasks)
     );
     const [completedCount, setCompletedCount] = useState(
         updateCompletedCount(completionMap)
     );
+    const [updatedKeys, setUpdatedKeys] = useState(completionUpdates);
+
+    useEffect(() => {
+        setUpdatedKeys(completionUpdates);
+    }, [completionUpdates]);
 
     const enableEditModeCallback = () => {
         setEditMode(true);
@@ -28,17 +43,26 @@ export default function SubtaskCriteria({ achievementId, criteria, onChange }) {
         setEditMode(false);
 
         const newAchievementState = {};
-        newAchievementState[achievementId] =
-            completedCount >= criteria.requiredCount;
+        newAchievementState[uuid] = completedCount >= criteria.requiredCount;
         onChange(newAchievementState, completionMap);
     };
 
-    const toggleItemCompletionCallback = (itemId, isComplete) => {
+    const toggleItemCompletionCallback = (uuid, isComplete) => {
         var curMap = completionMap;
-        curMap[itemId] = isComplete;
+        curMap[uuid] = isComplete;
         setCompletionMap(curMap);
         setCompletedCount(completedCount + (isComplete ? 1 : -1));
     };
+
+    if (filterUpdatedKeys(completionMap, updatedKeys).length > 0) {
+        setUpdatedKeys([]);
+        setCompletionMap(updateCompletionMap(completionMap, updatedKeys));
+        setCompletedCount(updateCompletedCount(completionMap));
+
+        const newAchievementState = {};
+        newAchievementState[uuid] = completedCount >= criteria.requiredCount;
+        onChange(newAchievementState, {});
+    }
 
     return (
         <React.Fragment>
@@ -52,33 +76,15 @@ export default function SubtaskCriteria({ achievementId, criteria, onChange }) {
             />
             {criteria.subtasks.map(subtask => (
                 <Subtask
-                    key={subtask.taskId}
-                    taskId={subtask.taskId}
+                    key={subtask.uuid}
+                    uuid={subtask.uuid}
                     description={subtask.name}
                     imgUrl={subtask.iconUrl}
                     isEditMode={editMode}
                     toggleItemCompletionCallback={toggleItemCompletionCallback}
-                    completed={completionMap[subtask.taskId] || false}
+                    completed={completionMap[subtask.uuid] || false}
                 />
             ))}
         </React.Fragment>
     );
-}
-
-function getCompletionStatus(tasks) {
-    const completionMap = {};
-    tasks.forEach(task => {
-        completionMap[task.taskId] = isTaskComplete(task.taskId);
-    });
-    return completionMap;
-}
-
-function updateCompletedCount(completionMap) {
-    let completedCount = 0;
-    for (let [, value] of Object.entries(completionMap)) {
-        if (value) {
-            completedCount++;
-        }
-    }
-    return completedCount;
 }

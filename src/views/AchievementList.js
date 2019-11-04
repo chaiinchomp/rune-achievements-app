@@ -2,10 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Accordion } from "react-bootstrap";
 import PropTypes from "prop-types";
 import AchievementCard from "./AchievementCard";
-import {
-    setAchievementComplete,
-    setTaskComplete
-} from "../util/LocalStorageClient";
+import { setComplete } from "../util/LocalStorageClient";
 import { filterAchievements } from "../util/AchievementFilter";
 
 AchievementList.propTypes = {
@@ -14,6 +11,7 @@ AchievementList.propTypes = {
 
 export default function AchievementList({ achievementList }) {
     const [achievements, setAchievements] = useState(achievementList);
+    const [updatedKeys, setUpdatedKeys] = useState([]);
 
     useEffect(() => {
         setAchievements(filterAchievements(achievementList));
@@ -22,14 +20,21 @@ export default function AchievementList({ achievementList }) {
     const saveChangesCallback = (newAchievementState, newTaskState) => {
         // Update in local storage
         for (let [key, value] of Object.entries(newAchievementState)) {
-            setAchievementComplete(key, value);
+            setComplete(key, value);
         }
         for (let [key, value] of Object.entries(newTaskState)) {
-            setTaskComplete(key, value);
+            setComplete(key, value);
         }
 
         // Reapply achievement filter in case any were completed
         setAchievements(filterAchievements(achievements));
+
+        // Send updated keys to children to refresh state if needed
+        setUpdatedKeys(
+            []
+                .concat(Object.keys(newAchievementState))
+                .concat(Object.keys(newTaskState))
+        );
     };
 
     return (
@@ -39,6 +44,7 @@ export default function AchievementList({ achievementList }) {
                     key={achievement.uuid}
                     achievement={achievement}
                     onChange={saveChangesCallback}
+                    completionUpdates={updatedKeys}
                 />
             ))}
         </Accordion>

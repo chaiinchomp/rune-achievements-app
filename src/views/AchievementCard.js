@@ -1,24 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
     Accordion,
     Card,
     OverlayTrigger,
     Tooltip,
     useAccordionToggle,
-    Image
+    Image,
+    Container,
+    Row,
+    Col
 } from "react-bootstrap";
 import PropTypes from "prop-types";
 import SubtaskCriteria from "../components/SubtaskCriteria";
 import NumericCriteria from "../components/NumericCriteria";
 import MetaCriteria from "../components/MetaCriteria";
 import downarrow from "../resources/downarrow.svg";
+import checkmark from "../resources/checkmark.svg";
+import { isComplete } from "../util/LocalStorageClient";
 
-Achievement.propTypes = {
+AchievementCard.propTypes = {
     achievement: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    completionUpdates: PropTypes.array.isRequired
 };
 
-export default function Achievement({ achievement, onChange }) {
+export default function AchievementCard({
+    achievement,
+    onChange,
+    completionUpdates
+}) {
+    const [updatedKeys, setUpdatedKeys] = useState(completionUpdates);
+
+    useEffect(() => {
+        setUpdatedKeys(completionUpdates);
+    }, [completionUpdates]);
+
     return (
         <SeriesTooltipWrapper achievement={achievement}>
             <Card
@@ -26,8 +42,27 @@ export default function Achievement({ achievement, onChange }) {
                 key={achievement.uuid}
             >
                 <HideShow eventKey={achievement.uuid}>
-                    <Card.Header className="text-center">
-                        {achievement.name}
+                    <Card.Header
+                        className={
+                            isComplete(achievement.uuid)
+                                ? "text-center border border-success"
+                                : "text-center"
+                        }
+                    >
+                        <Container>
+                            <Row className="justify-content-between">
+                                <Col xs lg="2">
+                                    {isComplete(achievement.uuid) && (
+                                        <Image
+                                            src={checkmark}
+                                            className="m-1 float-left"
+                                        />
+                                    )}
+                                </Col>
+                                <Col md="auto">{achievement.name}</Col>
+                                <Col xs lg="2" />
+                            </Row>
+                        </Container>
                     </Card.Header>
                     <Card.Body>
                         <Card.Subtitle>{achievement.description}</Card.Subtitle>
@@ -35,7 +70,7 @@ export default function Achievement({ achievement, onChange }) {
                 </HideShow>
                 <Card.Text className="m-2">
                     <Accordion.Collapse eventKey={achievement.uuid}>
-                        {renderCriteria(achievement, onChange)}
+                        {renderCriteria(achievement, onChange, updatedKeys)}
                     </Accordion.Collapse>
                 </Card.Text>
             </Card>
@@ -43,30 +78,34 @@ export default function Achievement({ achievement, onChange }) {
     );
 }
 
-function renderCriteria(achievement, onChange) {
+function renderCriteria(achievement, onChange, updatedKeys) {
     return (
         <React.Fragment>
             {achievement.subtaskCriteria && (
                 <SubtaskCriteria
                     key={achievement.uuid}
-                    achievementId={achievement.uuid}
+                    uuid={achievement.uuid}
                     criteria={achievement.subtaskCriteria}
                     onChange={onChange}
+                    completionUpdates={updatedKeys}
                 />
             )}
             {achievement.numericCriteria && (
                 <NumericCriteria
                     key={achievement.uuid}
-                    achievementId={achievement.uuid}
+                    uuid={achievement.uuid}
                     criteria={achievement.numericCriteria}
                     onChange={onChange}
+                    completionUpdates={updatedKeys}
                 />
             )}
             {achievement.metaCriteria && (
                 <MetaCriteria
                     key={achievement.uuid}
-                    achievementId={achievement.uuid}
+                    uuid={achievement.uuid}
                     criteria={achievement.metaCriteria}
+                    onChange={onChange}
+                    completionUpdates={updatedKeys}
                 />
             )}
         </React.Fragment>

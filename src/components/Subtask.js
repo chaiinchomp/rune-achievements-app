@@ -3,7 +3,7 @@ import { Image, OverlayTrigger, Tooltip } from "react-bootstrap";
 import PropTypes from "prop-types";
 
 Subtask.propTypes = {
-    taskId: PropTypes.string,
+    uuid: PropTypes.string,
     description: PropTypes.string.isRequired,
     completed: PropTypes.bool,
     imgUrl: PropTypes.string,
@@ -18,7 +18,7 @@ Subtask.defaultProps = {
 };
 
 export default function Subtask({
-    taskId,
+    uuid,
     title,
     description,
     imgUrl,
@@ -38,7 +38,7 @@ export default function Subtask({
                         src={imgUrl}
                         className={style.concat(" clickable")}
                         onClick={() => {
-                            toggleItemCompletionCallback(taskId, !completed);
+                            toggleItemCompletionCallback(uuid, !completed);
                         }}
                     />
                 ) : (

@@ -1,33 +1,25 @@
 import LocalStorage from "local-storage";
 
-export function isTaskComplete(taskId) {
-    return LocalStorage.get(taskId) || false;
+export function isComplete(uuid) {
+    return LocalStorage.get(uuid) || false;
 }
 
-export function setTaskComplete(taskId, isComplete) {
-    return LocalStorage.set(taskId, isComplete);
+export function setComplete(uuid, isComplete) {
+    return LocalStorage.set(uuid, isComplete);
 }
 
-export function getNumericTaskCount(taskId) {
-    return LocalStorage.get(taskId) || 0;
+export function getNumericTaskCount(uuid) {
+    return LocalStorage.get(uuid) || 0;
 }
 
-export function setNumericTaskCount(taskId, newCount) {
-    return LocalStorage.set(taskId, newCount);
+export function setNumericTaskCount(uuid, newCount) {
+    return LocalStorage.set(uuid, newCount);
 }
 
-export function isAchievementComplete(achievementId) {
-    return LocalStorage.get(achievementId) || false;
+export function getSeriesCompletion(uuid) {
+    return LocalStorage.get(uuid) || 1;
 }
 
-export function setAchievementComplete(achievementId, isComplete) {
-    return LocalStorage.set(achievementId, isComplete);
-}
-
-export function getSeriesCompletion(seriesId) {
-    return LocalStorage.get(seriesId) || 1;
-}
-
-export function setSeriesCompletion(seriesId, seriesOrdinal) {
-    return LocalStorage.set(seriesId, seriesOrdinal);
+export function setSeriesCompletion(uuid, seriesOrdinal) {
+    return LocalStorage.set(uuid, seriesOrdinal);
 }

@@ -1,23 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, ProgressBar } from "react-bootstrap";
 import PropTypes from "prop-types";
 import CriteriaHeader from "./CriteriaHeader";
 import {
     getNumericTaskCount,
-    setNumericTaskCount,
-    setAchievementComplete
+    setNumericTaskCount
 } from "../util/LocalStorageClient";
 
 NumericCriteria.propTypes = {
-    achievementId: PropTypes.string.isRequired,
-    criteria: PropTypes.object.isRequired
+    uuid: PropTypes.string.isRequired,
+    criteria: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired
 };
 
-export default function NumericCriteria({ achievementId, criteria }) {
+export default function NumericCriteria({ uuid, criteria, onChange }) {
     const [editMode, setEditMode] = useState(false);
     const [completedCount, setCompletedCount] = useState(
-        getNumericTaskCount(criteria.taskId)
+        getNumericTaskCount(criteria.uuid)
     );
+
     const requiredCount = criteria.count;
 
     const enableEditModeCallback = () => {
@@ -25,12 +26,12 @@ export default function NumericCriteria({ achievementId, criteria }) {
     };
 
     const saveChangesCallback = () => {
-        setNumericTaskCount(criteria.taskId, completedCount);
+        setNumericTaskCount(criteria.uuid, completedCount);
         setEditMode(false);
-        setAchievementComplete(
-            achievementId,
-            completedCount >= criteria.requiredCount
-        );
+
+        const newAchievementState = {};
+        newAchievementState[uuid] = completedCount >= requiredCount;
+        onChange(newAchievementState, {});
     };
 
     return (
