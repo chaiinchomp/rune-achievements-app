@@ -11,12 +11,10 @@ SubtaskCriteria.propTypes = {
 };
 
 export default function SubtaskCriteria({ achievementId, criteria, onChange }) {
-    const subtasks = criteria.subtasks || [criteria];
-    const requiredCount = criteria.requiredCount || 1;
     const [editMode, setEditMode] = useState(false);
 
     const [completionMap, setCompletionMap] = useState(
-        getCompletionStatus(subtasks)
+        getCompletionStatus(criteria.subtasks)
     );
     const [completedCount, setCompletedCount] = useState(
         updateCompletedCount(completionMap)
@@ -30,7 +28,8 @@ export default function SubtaskCriteria({ achievementId, criteria, onChange }) {
         setEditMode(false);
 
         const newAchievementState = {};
-        newAchievementState[achievementId] = completedCount >= requiredCount;
+        newAchievementState[achievementId] =
+            completedCount >= criteria.requiredCount;
         onChange(newAchievementState, completionMap);
     };
 
@@ -45,13 +44,13 @@ export default function SubtaskCriteria({ achievementId, criteria, onChange }) {
         <React.Fragment>
             <CriteriaHeader
                 completedCount={completedCount}
-                requiredCount={requiredCount}
+                requiredCount={criteria.requiredCount}
                 enableEditModeCallback={enableEditModeCallback}
                 saveChangesCallback={saveChangesCallback}
                 isEditMode={editMode}
                 showEditButton
             />
-            {subtasks.map(subtask => (
+            {criteria.subtasks.map(subtask => (
                 <Subtask
                     key={subtask.taskId}
                     taskId={subtask.taskId}

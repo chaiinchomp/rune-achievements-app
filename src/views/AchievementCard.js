@@ -46,14 +46,11 @@ export default function Achievement({ achievement, onChange }) {
 function renderCriteria(achievement, onChange) {
     return (
         <React.Fragment>
-            {(achievement.subtaskCriteria || achievement.simpleCriteria) && (
+            {achievement.subtaskCriteria && (
                 <SubtaskCriteria
                     key={achievement.uuid}
                     achievementId={achievement.uuid}
-                    criteria={
-                        achievement.subtaskCriteria ||
-                        achievement.simpleCriteria
-                    }
+                    criteria={achievement.subtaskCriteria}
                     onChange={onChange}
                 />
             )}
