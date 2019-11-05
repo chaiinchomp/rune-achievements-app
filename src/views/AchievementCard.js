@@ -21,19 +21,19 @@ import { isComplete } from "../util/LocalStorageClient";
 AchievementCard.propTypes = {
     achievement: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
-    completionUpdates: PropTypes.array.isRequired
+    checkForUpdates: PropTypes.bool.isRequired
 };
 
 export default function AchievementCard({
     achievement,
     onChange,
-    completionUpdates
+    checkForUpdates
 }) {
-    const [updatedKeys, setUpdatedKeys] = useState(completionUpdates);
+    const [forceUpdate, setForceUpdate] = useState(checkForUpdates);
 
     useEffect(() => {
-        setUpdatedKeys(completionUpdates);
-    }, [completionUpdates]);
+        setForceUpdate(checkForUpdates);
+    }, [checkForUpdates]);
 
     return (
         <SeriesTooltipWrapper achievement={achievement}>
@@ -70,7 +70,7 @@ export default function AchievementCard({
                 </HideShow>
                 <Card.Text className="m-2">
                     <Accordion.Collapse eventKey={achievement.uuid}>
-                        {renderCriteria(achievement, onChange, updatedKeys)}
+                        {renderCriteria(achievement, onChange, forceUpdate)}
                     </Accordion.Collapse>
                 </Card.Text>
             </Card>
@@ -78,7 +78,7 @@ export default function AchievementCard({
     );
 }
 
-function renderCriteria(achievement, onChange, updatedKeys) {
+function renderCriteria(achievement, onChange, forceUpdate) {
     return (
         <React.Fragment>
             {achievement.subtaskCriteria && (
@@ -87,7 +87,7 @@ function renderCriteria(achievement, onChange, updatedKeys) {
                     uuid={achievement.uuid}
                     criteria={achievement.subtaskCriteria}
                     onChange={onChange}
-                    completionUpdates={updatedKeys}
+                    forceUpdate={forceUpdate}
                     seriesId={achievement.series && achievement.series.uuid}
                     seriesOrdinal={achievement.seriesOrdinal}
                 />
@@ -98,7 +98,6 @@ function renderCriteria(achievement, onChange, updatedKeys) {
                     uuid={achievement.uuid}
                     criteria={achievement.numericCriteria}
                     onChange={onChange}
-                    completionUpdates={updatedKeys}
                     seriesId={achievement.series && achievement.series.uuid}
                     seriesOrdinal={achievement.seriesOrdinal}
                 />
@@ -109,7 +108,7 @@ function renderCriteria(achievement, onChange, updatedKeys) {
                     uuid={achievement.uuid}
                     criteria={achievement.metaCriteria}
                     onChange={onChange}
-                    completionUpdates={updatedKeys}
+                    forceUpdate={forceUpdate}
                     seriesId={achievement.series && achievement.series.uuid}
                     seriesOrdinal={achievement.seriesOrdinal}
                 />

@@ -18,19 +18,22 @@ export function updateCompletedCount(completionMap) {
     return completedCount;
 }
 
-export function filterUpdatedKeys(completionMap, updatedKeys) {
-    return updatedKeys.filter(function(updatedKey) {
-        return updatedKey in completionMap;
-    });
-}
-
-export function updateCompletionMap(completionMap, updatedKeys) {
-    updatedKeys.forEach(updatedKey => {
-        if (updatedKey in completionMap) {
-            completionMap[updatedKey] = isComplete(updatedKey);
+export function checkForUpdates(completionMap) {
+    let foundUpdates = false;
+    let updatedCount = 0;
+    for (let [key, value] of Object.entries(completionMap)) {
+        const newValue = isComplete(key);
+        if (value !== newValue) {
+            foundUpdates = true;
+            completionMap[key] = newValue;
         }
-    });
-    return completionMap;
+        updatedCount = updatedCount + (newValue ? 1 : 0);
+    }
+    return {
+        foundUpdates: foundUpdates,
+        updatedMap: completionMap,
+        updatedCount: updatedCount
+    };
 }
 
 export function setAchievementCompleted(

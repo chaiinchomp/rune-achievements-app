@@ -14,7 +14,7 @@ export default function AchievementList({ achievementList }) {
     const [filteredAchievements, setFilteredAchievements] = useState(
         achievementList
     );
-    const [updatedKeys, setUpdatedKeys] = useState([]);
+    const [forceUpdate, setForceUpdate] = useState(false);
 
     useEffect(() => {
         setAchievements(achievementList);
@@ -33,12 +33,8 @@ export default function AchievementList({ achievementList }) {
         // Reapply achievement filter in case any were completed
         setFilteredAchievements(filterAchievements(achievements));
 
-        // Send updated keys to children to refresh state if needed
-        setUpdatedKeys(
-            []
-                .concat(Object.keys(newAchievementState))
-                .concat(Object.keys(newTaskState))
-        );
+        // Flip forceUpdate to let children know there were changes
+        setForceUpdate(!forceUpdate);
     };
 
     return (
@@ -48,7 +44,7 @@ export default function AchievementList({ achievementList }) {
                     key={achievement.uuid}
                     achievement={achievement}
                     onChange={saveChangesCallback}
-                    completionUpdates={updatedKeys}
+                    checkForUpdates={forceUpdate}
                 />
             ))}
         </Accordion>

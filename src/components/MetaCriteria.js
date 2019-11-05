@@ -5,8 +5,7 @@ import CriteriaHeader from "./CriteriaHeader";
 import {
     getCompletionStatus,
     updateCompletedCount,
-    filterUpdatedKeys,
-    updateCompletionMap,
+    checkForUpdates,
     setAchievementCompleted
 } from "../util/CompletionUtils";
 
@@ -14,7 +13,7 @@ MetaCriteria.propTypes = {
     uuid: PropTypes.string.isRequired,
     criteria: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
-    completionUpdates: PropTypes.array.isRequired,
+    forceUpdate: PropTypes.bool.isRequired,
     seriesId: PropTypes.string,
     seriesOrdinal: PropTypes.number
 };
@@ -23,7 +22,7 @@ export default function MetaCriteria({
     uuid,
     criteria,
     onChange,
-    completionUpdates,
+    forceUpdate,
     seriesId,
     seriesOrdinal
 }) {
@@ -33,25 +32,25 @@ export default function MetaCriteria({
     const [completedCount, setCompletedCount] = useState(
         updateCompletedCount(completionMap)
     );
-    const [updatedKeys, setUpdatedKeys] = useState(completionUpdates);
 
     useEffect(() => {
-        setUpdatedKeys(completionUpdates);
-    }, [completionUpdates]);
-
-    if (filterUpdatedKeys(completionMap, updatedKeys).length > 0) {
-        setUpdatedKeys([]);
-        setCompletionMap(updateCompletionMap(completionMap, updatedKeys));
-        setCompletedCount(updateCompletedCount(completionMap));
-
-        const newAchievementState = setAchievementCompleted(
-            uuid,
-            completedCount >= criteria.requiredCount,
-            seriesId,
-            seriesOrdinal
+        const { foundUpdates, updatedMap, updatedCount } = checkForUpdates(
+            completionMap
         );
-        onChange(newAchievementState, {});
-    }
+        if (foundUpdates) {
+            setCompletionMap(updatedMap);
+            setCompletedCount(updatedCount);
+
+            const newAchievementState = setAchievementCompleted(
+                uuid,
+                completedCount >= criteria.requiredCount,
+                seriesId,
+                seriesOrdinal
+            );
+            onChange(newAchievementState, {});
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [forceUpdate]);
 
     return (
         <React.Fragment>

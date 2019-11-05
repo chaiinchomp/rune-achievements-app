@@ -5,16 +5,15 @@ import CriteriaHeader from "./CriteriaHeader";
 import {
     getCompletionStatus,
     updateCompletedCount,
-    filterUpdatedKeys,
-    updateCompletionMap,
-    setAchievementCompleted
+    setAchievementCompleted,
+    checkForUpdates
 } from "../util/CompletionUtils";
 
 SubtaskCriteria.propTypes = {
     uuid: PropTypes.string.isRequired,
     criteria: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
-    completionUpdates: PropTypes.array.isRequired,
+    forceUpdate: PropTypes.bool.isRequired,
     seriesId: PropTypes.string,
     seriesOrdinal: PropTypes.number
 };
@@ -23,7 +22,7 @@ export default function SubtaskCriteria({
     uuid,
     criteria,
     onChange,
-    completionUpdates,
+    forceUpdate,
     seriesId,
     seriesOrdinal
 }) {
@@ -34,11 +33,25 @@ export default function SubtaskCriteria({
     const [completedCount, setCompletedCount] = useState(
         updateCompletedCount(completionMap)
     );
-    const [updatedKeys, setUpdatedKeys] = useState(completionUpdates);
 
     useEffect(() => {
-        setUpdatedKeys(completionUpdates);
-    }, [completionUpdates]);
+        const { foundUpdates, updatedMap, updatedCount } = checkForUpdates(
+            completionMap
+        );
+        if (foundUpdates) {
+            setCompletionMap(updatedMap);
+            setCompletedCount(updatedCount);
+
+            const newAchievementState = setAchievementCompleted(
+                uuid,
+                completedCount >= criteria.requiredCount,
+                seriesId,
+                seriesOrdinal
+            );
+            onChange(newAchievementState, {});
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [forceUpdate]);
 
     const enableEditModeCallback = () => {
         setEditMode(true);
@@ -62,20 +75,6 @@ export default function SubtaskCriteria({
         setCompletionMap(curMap);
         setCompletedCount(completedCount + (isComplete ? 1 : -1));
     };
-
-    if (filterUpdatedKeys(completionMap, updatedKeys).length > 0) {
-        setUpdatedKeys([]);
-        setCompletionMap(updateCompletionMap(completionMap, updatedKeys));
-        setCompletedCount(updateCompletedCount(completionMap));
-
-        const newAchievementState = setAchievementCompleted(
-            uuid,
-            completedCount >= criteria.requiredCount,
-            seriesId,
-            seriesOrdinal
-        );
-        onChange(newAchievementState, {});
-    }
 
     return (
         <React.Fragment>
