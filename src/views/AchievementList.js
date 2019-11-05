@@ -11,10 +11,14 @@ AchievementList.propTypes = {
 
 export default function AchievementList({ achievementList }) {
     const [achievements, setAchievements] = useState(achievementList);
+    const [filteredAchievements, setFilteredAchievements] = useState(
+        achievementList
+    );
     const [updatedKeys, setUpdatedKeys] = useState([]);
 
     useEffect(() => {
-        setAchievements(filterAchievements(achievementList));
+        setAchievements(achievementList);
+        setFilteredAchievements(filterAchievements(achievementList));
     }, [achievementList]);
 
     const saveChangesCallback = (newAchievementState, newTaskState) => {
@@ -27,7 +31,7 @@ export default function AchievementList({ achievementList }) {
         }
 
         // Reapply achievement filter in case any were completed
-        setAchievements(filterAchievements(achievements));
+        setFilteredAchievements(filterAchievements(achievements));
 
         // Send updated keys to children to refresh state if needed
         setUpdatedKeys(
@@ -39,7 +43,7 @@ export default function AchievementList({ achievementList }) {
 
     return (
         <Accordion>
-            {achievements.map(achievement => (
+            {filteredAchievements.map(achievement => (
                 <AchievementCard
                     key={achievement.uuid}
                     achievement={achievement}

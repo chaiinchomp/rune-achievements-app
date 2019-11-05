@@ -88,6 +88,8 @@ function renderCriteria(achievement, onChange, updatedKeys) {
                     criteria={achievement.subtaskCriteria}
                     onChange={onChange}
                     completionUpdates={updatedKeys}
+                    seriesId={achievement.series && achievement.series.uuid}
+                    seriesOrdinal={achievement.seriesOrdinal}
                 />
             )}
             {achievement.numericCriteria && (
@@ -97,6 +99,8 @@ function renderCriteria(achievement, onChange, updatedKeys) {
                     criteria={achievement.numericCriteria}
                     onChange={onChange}
                     completionUpdates={updatedKeys}
+                    seriesId={achievement.series && achievement.series.uuid}
+                    seriesOrdinal={achievement.seriesOrdinal}
                 />
             )}
             {achievement.metaCriteria && (
@@ -106,6 +110,8 @@ function renderCriteria(achievement, onChange, updatedKeys) {
                     criteria={achievement.metaCriteria}
                     onChange={onChange}
                     completionUpdates={updatedKeys}
+                    seriesId={achievement.series && achievement.series.uuid}
+                    seriesOrdinal={achievement.seriesOrdinal}
                 />
             )}
         </React.Fragment>

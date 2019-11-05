@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Form, ProgressBar } from "react-bootstrap";
 import PropTypes from "prop-types";
 import CriteriaHeader from "./CriteriaHeader";
@@ -6,14 +6,23 @@ import {
     getNumericTaskCount,
     setNumericTaskCount
 } from "../util/LocalStorageClient";
+import { setAchievementCompleted } from "../util/CompletionUtils";
 
 NumericCriteria.propTypes = {
     uuid: PropTypes.string.isRequired,
     criteria: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    seriesId: PropTypes.string,
+    seriesOrdinal: PropTypes.number
 };
 
-export default function NumericCriteria({ uuid, criteria, onChange }) {
+export default function NumericCriteria({
+    uuid,
+    criteria,
+    onChange,
+    seriesId,
+    seriesOrdinal
+}) {
     const [editMode, setEditMode] = useState(false);
     const [completedCount, setCompletedCount] = useState(
         getNumericTaskCount(criteria.uuid)
@@ -29,8 +38,12 @@ export default function NumericCriteria({ uuid, criteria, onChange }) {
         setNumericTaskCount(criteria.uuid, completedCount);
         setEditMode(false);
 
-        const newAchievementState = {};
-        newAchievementState[uuid] = completedCount >= requiredCount;
+        const newAchievementState = setAchievementCompleted(
+            uuid,
+            completedCount >= requiredCount,
+            seriesId,
+            seriesOrdinal
+        );
         onChange(newAchievementState, {});
     };
 

@@ -1,4 +1,4 @@
-import { isComplete } from "../util/LocalStorageClient";
+import { isComplete, setSeriesCompletion } from "../util/LocalStorageClient";
 
 export function getCompletionStatus(tasks) {
     const completionMap = {};
@@ -31,4 +31,22 @@ export function updateCompletionMap(completionMap, updatedKeys) {
         }
     });
     return completionMap;
+}
+
+export function setAchievementCompleted(
+    uuid,
+    isComplete,
+    seriesId,
+    seriesOrdinal
+) {
+    if (seriesId && seriesOrdinal) {
+        setSeriesCompletion(
+            seriesId,
+            isComplete ? seriesOrdinal + 1 : seriesOrdinal
+        );
+    }
+
+    const newAchievementState = {};
+    newAchievementState[uuid] = isComplete;
+    return newAchievementState;
 }

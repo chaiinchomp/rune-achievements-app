@@ -6,21 +6,26 @@ import {
     getCompletionStatus,
     updateCompletedCount,
     filterUpdatedKeys,
-    updateCompletionMap
+    updateCompletionMap,
+    setAchievementCompleted
 } from "../util/CompletionUtils";
 
 MetaCriteria.propTypes = {
     uuid: PropTypes.string.isRequired,
     criteria: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
-    completionUpdates: PropTypes.array.isRequired
+    completionUpdates: PropTypes.array.isRequired,
+    seriesId: PropTypes.string,
+    seriesOrdinal: PropTypes.number
 };
 
 export default function MetaCriteria({
     uuid,
     criteria,
     onChange,
-    completionUpdates
+    completionUpdates,
+    seriesId,
+    seriesOrdinal
 }) {
     const [completionMap, setCompletionMap] = useState(
         getCompletionStatus(criteria.subtasks)
@@ -39,8 +44,12 @@ export default function MetaCriteria({
         setCompletionMap(updateCompletionMap(completionMap, updatedKeys));
         setCompletedCount(updateCompletedCount(completionMap));
 
-        const newAchievementState = {};
-        newAchievementState[uuid] = completedCount >= criteria.requiredCount;
+        const newAchievementState = setAchievementCompleted(
+            uuid,
+            completedCount >= criteria.requiredCount,
+            seriesId,
+            seriesOrdinal
+        );
         onChange(newAchievementState, {});
     }
 

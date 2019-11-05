@@ -6,21 +6,26 @@ import {
     getCompletionStatus,
     updateCompletedCount,
     filterUpdatedKeys,
-    updateCompletionMap
+    updateCompletionMap,
+    setAchievementCompleted
 } from "../util/CompletionUtils";
 
 SubtaskCriteria.propTypes = {
     uuid: PropTypes.string.isRequired,
     criteria: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
-    completionUpdates: PropTypes.array.isRequired
+    completionUpdates: PropTypes.array.isRequired,
+    seriesId: PropTypes.string,
+    seriesOrdinal: PropTypes.number
 };
 
 export default function SubtaskCriteria({
     uuid,
     criteria,
     onChange,
-    completionUpdates
+    completionUpdates,
+    seriesId,
+    seriesOrdinal
 }) {
     const [editMode, setEditMode] = useState(false);
     const [completionMap, setCompletionMap] = useState(
@@ -42,8 +47,12 @@ export default function SubtaskCriteria({
     const saveChangesCallback = () => {
         setEditMode(false);
 
-        const newAchievementState = {};
-        newAchievementState[uuid] = completedCount >= criteria.requiredCount;
+        const newAchievementState = setAchievementCompleted(
+            uuid,
+            completedCount >= criteria.requiredCount,
+            seriesId,
+            seriesOrdinal
+        );
         onChange(newAchievementState, completionMap);
     };
 
@@ -59,8 +68,12 @@ export default function SubtaskCriteria({
         setCompletionMap(updateCompletionMap(completionMap, updatedKeys));
         setCompletedCount(updateCompletedCount(completionMap));
 
-        const newAchievementState = {};
-        newAchievementState[uuid] = completedCount >= criteria.requiredCount;
+        const newAchievementState = setAchievementCompleted(
+            uuid,
+            completedCount >= criteria.requiredCount,
+            seriesId,
+            seriesOrdinal
+        );
         onChange(newAchievementState, {});
     }
 
