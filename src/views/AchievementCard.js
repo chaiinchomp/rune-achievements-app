@@ -36,45 +36,59 @@ export default function AchievementCard({
     }, [checkForUpdates]);
 
     return (
-        <SeriesTooltipWrapper achievement={achievement}>
-            <Card
-                className="bg-dark text-white achievement-card"
-                key={achievement.uuid}
-            >
-                <HideShow eventKey={achievement.uuid}>
-                    <Card.Header
-                        className={
-                            isComplete(achievement.uuid)
-                                ? "text-center border border-success"
-                                : "text-center"
-                        }
-                    >
-                        <Container>
-                            <Row className="justify-content-between">
-                                <Col xs lg="2">
-                                    {isComplete(achievement.uuid) && (
-                                        <Image
-                                            src={checkmark}
-                                            className="m-1 float-left"
-                                        />
-                                    )}
-                                </Col>
-                                <Col md="auto">{achievement.name}</Col>
-                                <Col xs lg="2" />
-                            </Row>
-                        </Container>
-                    </Card.Header>
-                    <Card.Body>
-                        <Card.Subtitle>{achievement.description}</Card.Subtitle>
-                    </Card.Body>
-                </HideShow>
-                <Card.Text className="m-2">
-                    <Accordion.Collapse eventKey={achievement.uuid}>
-                        {renderCriteria(achievement, onChange, forceUpdate)}
-                    </Accordion.Collapse>
-                </Card.Text>
-            </Card>
-        </SeriesTooltipWrapper>
+        <Card
+            className="bg-dark text-white achievement-card"
+            key={achievement.uuid}
+        >
+            <HideShow eventKey={achievement.uuid}>
+                <Card.Header
+                    className={
+                        isComplete(achievement.uuid)
+                            ? "text-center border border-success"
+                            : "text-center"
+                    }
+                >
+                    <Container>
+                        <Row className="justify-content-between">
+                            <Col xs lg="2">
+                                {isComplete(achievement.uuid) && (
+                                    <Image
+                                        src={checkmark}
+                                        className="m-1 float-left"
+                                    />
+                                )}
+                            </Col>
+                            <Col md="auto">{achievement.name}</Col>
+                            <Col xs lg="2">
+                                {achievement.series && (
+                                    <OverlayTrigger
+                                        placement="right"
+                                        overlay={
+                                            <Tooltip>
+                                                {renderSeries(achievement)}
+                                            </Tooltip>
+                                        }
+                                    >
+                                        <div>
+                                            {achievement.seriesOrdinal}/
+                                            {achievement.series.length}
+                                        </div>
+                                    </OverlayTrigger>
+                                )}
+                            </Col>
+                        </Row>
+                    </Container>
+                </Card.Header>
+                <Card.Body>
+                    <Card.Subtitle>{achievement.description}</Card.Subtitle>
+                </Card.Body>
+            </HideShow>
+            <Card.Text className="m-2">
+                <Accordion.Collapse eventKey={achievement.uuid}>
+                    {renderCriteria(achievement, onChange, forceUpdate)}
+                </Accordion.Collapse>
+            </Card.Text>
+        </Card>
     );
 }
 
@@ -126,21 +140,6 @@ function HideShow({ children, eventKey }) {
             </div>
         </div>
     );
-}
-
-function SeriesTooltipWrapper(props) {
-    if (props.achievement.series) {
-        return (
-            <OverlayTrigger
-                placement="right"
-                overlay={<Tooltip>{renderSeries(props.achievement)}</Tooltip>}
-            >
-                {props.children}
-            </OverlayTrigger>
-        );
-    } else {
-        return props.children;
-    }
 }
 
 function renderSeries(achievement) {
