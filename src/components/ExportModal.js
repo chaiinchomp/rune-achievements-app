@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Button, Modal, InputGroup, FormControl } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
+import { saveLocalStorageToDisk } from "../util/IoUtils";
 
 ExportModal.propTypes = {
     show: PropTypes.bool.isRequired,
@@ -20,12 +21,7 @@ export default function ExportModal({ show, onClose }) {
                 <Modal.Title>Backup Achievement Log</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Your permalink to this achievement log:
-                <InputGroup className="m-1">
-                    <FormControl as="textarea">
-                        http://www.runeachievements.com
-                    </FormControl>
-                </InputGroup>
+                <Button onClick={saveLocalStorageToDisk}>Save backup</Button>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onClose}>
