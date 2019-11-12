@@ -29,7 +29,7 @@ export default function() {
                         onClick={handleShowExportModal}
                         className="clickable mr-2"
                     >
-                        Export
+                        Import/Export
                     </Navbar.Text>
                 </Navbar.Collapse>
             </Navbar>
