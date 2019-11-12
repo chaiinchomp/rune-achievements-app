@@ -16,6 +16,7 @@ export default function ExportModal({ show, onClose }) {
     const [showModal, setShowModal] = useState(show);
     const [errorText, setErrorText] = useState("");
     const [successText, setSuccessText] = useState("");
+    const [wasUpdated, setWasUpdated] = useState(false);
 
     useEffect(() => {
         setShowModal(show);
@@ -44,6 +45,7 @@ export default function ExportModal({ show, onClose }) {
                             setSuccessText(
                                 "Successfully imported achievement log."
                             );
+                            setWasUpdated(true);
                         }}
                         onError={errMsg => {
                             setSuccessText("");
@@ -66,7 +68,7 @@ export default function ExportModal({ show, onClose }) {
                     onClick={() => {
                         setErrorText("");
                         setSuccessText("");
-                        onClose();
+                        onClose(wasUpdated);
                     }}
                 >
                     Close

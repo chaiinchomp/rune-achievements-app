@@ -11,10 +11,20 @@ export default function() {
     const [showExportModal, setShowExportModal] = useState(false);
     const [showResetModal, setShowResetModal] = useState(false);
 
-    const handleCloseExportModal = () => setShowExportModal(false);
+    const handleCloseExportModal = wasUpdated => {
+        setShowExportModal(false);
+        if (wasUpdated) {
+            window.location.reload();
+        }
+    };
     const handleShowExportModal = () => setShowExportModal(true);
 
-    const handleCloseResetModal = () => setShowResetModal(false);
+    const handleCloseResetModal = wasUpdated => {
+        setShowResetModal(false);
+        if (wasUpdated) {
+            window.location.reload();
+        }
+    };
     const handleShowResetModal = () => setShowResetModal(true);
 
     return (

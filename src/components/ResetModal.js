@@ -28,7 +28,7 @@ export default function ResetModal({ show, onClose }) {
                     variant="dark"
                     onClick={() => {
                         localStorage.clear();
-                        onClose();
+                        onClose(true);
                     }}
                 >
                     Reset Data
@@ -36,7 +36,7 @@ export default function ResetModal({ show, onClose }) {
                 <Button
                     variant="secondary"
                     onClick={() => {
-                        onClose();
+                        onClose(false);
                     }}
                 >
                     Cancel
