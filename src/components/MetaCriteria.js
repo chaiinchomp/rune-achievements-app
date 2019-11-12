@@ -34,6 +34,17 @@ export default function MetaCriteria({
     );
 
     useEffect(() => {
+        const newAchievementState = setAchievementCompleted(
+            uuid,
+            completedCount >= criteria.subtasks.length,
+            seriesId,
+            seriesOrdinal
+        );
+        onChange(newAchievementState, {});
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
         const { foundUpdates, updatedMap, updatedCount } = checkForUpdates(
             completionMap
         );
@@ -43,7 +54,7 @@ export default function MetaCriteria({
 
             const newAchievementState = setAchievementCompleted(
                 uuid,
-                completedCount >= criteria.requiredCount,
+                completedCount >= criteria.subtasks.length,
                 seriesId,
                 seriesOrdinal
             );

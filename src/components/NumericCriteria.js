@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, ProgressBar } from "react-bootstrap";
 import PropTypes from "prop-types";
 import CriteriaHeader from "./CriteriaHeader";
@@ -12,6 +12,7 @@ NumericCriteria.propTypes = {
     uuid: PropTypes.string.isRequired,
     criteria: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
+    forceUpdate: PropTypes.bool.isRequired,
     seriesId: PropTypes.string,
     seriesOrdinal: PropTypes.number
 };
@@ -20,6 +21,7 @@ export default function NumericCriteria({
     uuid,
     criteria,
     onChange,
+    forceUpdate,
     seriesId,
     seriesOrdinal
 }) {
@@ -29,6 +31,33 @@ export default function NumericCriteria({
     );
 
     const requiredCount = criteria.count;
+
+    useEffect(() => {
+        const newAchievementState = setAchievementCompleted(
+            uuid,
+            completedCount >= criteria.requiredCount,
+            seriesId,
+            seriesOrdinal
+        );
+        onChange(newAchievementState, {});
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        const updatedCount = getNumericTaskCount(uuid);
+        if (completedCount !== updatedCount) {
+            setCompletedCount(updatedCount);
+
+            const newAchievementState = setAchievementCompleted(
+                uuid,
+                completedCount >= criteria.requiredCount,
+                seriesId,
+                seriesOrdinal
+            );
+            onChange(newAchievementState, {});
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [forceUpdate]);
 
     const enableEditModeCallback = () => {
         setEditMode(true);

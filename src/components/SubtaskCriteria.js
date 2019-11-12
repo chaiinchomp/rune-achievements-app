@@ -35,6 +35,17 @@ export default function SubtaskCriteria({
     );
 
     useEffect(() => {
+        const newAchievementState = setAchievementCompleted(
+            uuid,
+            completedCount >= criteria.requiredCount,
+            seriesId,
+            seriesOrdinal
+        );
+        onChange(newAchievementState, {});
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
         const { foundUpdates, updatedMap, updatedCount } = checkForUpdates(
             completionMap
         );
